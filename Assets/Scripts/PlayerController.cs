@@ -1,6 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
@@ -75,6 +75,11 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.CompareTag("Ground"))
         {
             numJumps = 1;
+        }
+        else if (collision.gameObject.CompareTag("obBottom"))
+        {
+            // die
+            SceneManager.LoadScene("SampleScene");
         }
     }
 

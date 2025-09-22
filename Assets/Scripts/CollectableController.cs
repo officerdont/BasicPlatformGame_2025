@@ -29,4 +29,12 @@ public class CollectableController : MonoBehaviour
 
         speed = Random.Range(minSpeed, maxSpeed);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "outofbounds")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
+
