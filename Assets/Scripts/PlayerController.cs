@@ -1,17 +1,21 @@
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
+    public GameObject Platformprefab;
     private float inputHorizontal;
     private int maxNumJumps;
     private int numJumps;
+    public int hammer = 0;
     //because this is public we have access to it in the unity editor
     public float horizontalMoveSpeed;
     public float jumpForce;
 
     public GameObject doubleJumpHatLocation;
+    public GameObject HammerLocation;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,6 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         movePlayerLateral();
         jump();
+        platformcreator();
     }
 
     private void movePlayerLateral()
@@ -81,6 +86,8 @@ public class PlayerController : MonoBehaviour
             // die
             SceneManager.LoadScene("SampleScene");
         }
+       
+
     }
 
     //Triggers
@@ -93,12 +100,40 @@ public class PlayerController : MonoBehaviour
             equipDoubleJumpHat(hat);
             maxNumJumps = 2;
         }
+        else if (collision.gameObject.CompareTag("Hammer"))
+        {
+            GameObject Hammer = collision.gameObject;
+            equipHammer(Hammer);
+            hammer++;
+            
+
+        }
     }
 
     private void equipDoubleJumpHat(GameObject hat)
     {
         hat.transform.position = doubleJumpHatLocation.transform.position;
         hat.gameObject.transform.SetParent(this.gameObject.transform);
+    }
+
+    private void equipHammer(GameObject Hammer)
+    {
+        Hammer.transform.position = HammerLocation.transform.position;
+        Hammer.gameObject.transform.SetParent(this.gameObject.transform);
+    }
+
+    private void platformcreator()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Q) && hammer > 0)
+        {
+            // spawn platform beneth the player
+            Vector2 spawnPosition = new Vector2(transform.position.x, transform.position.y - 1.5f);
+            Instantiate(Platformprefab, spawnPosition, Quaternion.identity);
+           // hammer--;
+           
+
+        }
     }
 }   
 

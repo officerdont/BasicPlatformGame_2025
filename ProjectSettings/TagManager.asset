@@ -11,6 +11,7 @@ TagManager:
   - WallMoveRightBound
   - outofbounds
   - obBottom
+  - Hammer
   layers:
   - Default
   - TransparentFX
